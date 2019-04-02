@@ -1,17 +1,6 @@
 import React from "react";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
 import styled from "styled-components";
-
-const GET_MEDIA_DETAILS = gql`
-  query GetMediaDetails($title: String) {
-    showOrMovieData(title: $title) {
-      title
-      plot
-      poster
-    }
-  }
-`;
+import MediaCard from '../MediaContentCard/index';
 
 const SearchMediaContainer = styled.div`
   display: flex;
@@ -43,29 +32,6 @@ const SearchMediaContainer = styled.div`
   }
 `;
 
-const SearchMediaContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 40%;
-  text-align: center;
-
-  & h1 {
-    font-size: 50px;
-    margin-bottom: 10px;
-  }
-
-  & p {
-    font-size: 20px;
-  }
-
-  & img {
-    border: 1px solid black;
-    box-shadow: 5px 6px 20px 4px black;
-    margin-bottom: 20px;
-  }
-`;
-
 const SearchMedia = () => {
   const [value, setValue] = React.useState("");
   const [search, setSearch] = React.useState("");
@@ -80,23 +46,7 @@ const SearchMedia = () => {
         <input value={value} onChange={e => setValue(e.target.value)} />
         <button>Search</button>
       </form>
-      {search && (
-        <Query query={GET_MEDIA_DETAILS} variables={{ title: search }}>
-          {({ data, loading, error }) => {
-            if (loading) return <h1>Loading...</h1>;
-            if (error) return <h1>{search} does not exist. Try again :)</h1>;
-            const { showOrMovieData } = data;
-            const { title, poster, plot } = showOrMovieData;
-            return (
-              <SearchMediaContent>
-                <h1>{title}</h1>
-                <img src={poster} alt="Media poster" />
-                <p>{plot}</p>
-              </SearchMediaContent>
-            );
-          }}
-        </Query>
-      )}
+      {search && <MediaCard search={search} />}
     </SearchMediaContainer>
   );
 };
