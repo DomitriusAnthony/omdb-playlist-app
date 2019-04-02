@@ -20,7 +20,9 @@ const client = new ApolloClient({
 
 // This is where you can setup your initial state.
 cache.writeData({
-  data: {}
+  data: {
+    playlist: [],
+  }
 });
 
 ReactDOM.render(

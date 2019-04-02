@@ -1,5 +1,31 @@
-// import your mutations and place them on the object
+import gql from 'graphql-tag';
+
+let id = 0;
 
 export default {
-  Mutation: {}
+  Mutation: {
+    addToPlaylist: (_, { media }, { cache }) => {
+        const query = gql`
+          query GetPlaylists {
+            playlist {
+              id
+            }
+          }
+        `;
+
+        const prevState = cache.readQuery({ query });
+
+        const newMedia = {
+          ...media,
+          __typename: "Media",
+          id: id++
+        }
+
+        const data = {
+          playlist: prevState.playlist.concat(newMedia)
+        }
+
+        cache.writeData({ data });
+    }
+  }
 };

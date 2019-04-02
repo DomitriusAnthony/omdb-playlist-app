@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 
 const Card = styled.div`
   display: flex;
@@ -26,6 +26,9 @@ const Card = styled.div`
   }
 `;
 
+const CardImage = styled.div``
+const CardContent = styled.div``
+
 const GET_MEDIA_DETAILS = gql`
   query GetMediaDetails($title: String) {
     showOrMovieData(title: $title) {
@@ -36,6 +39,14 @@ const GET_MEDIA_DETAILS = gql`
   }
 `;
 
+const ADD_TO_PLAYLIST = gql`
+    mutation AddToPlaylist($media: Media) {
+        addToPlaylist(media: $media) @client {
+            id
+        }
+    }
+`
+
 const MediaCard = ({ search }) => {
   return (
     <Query query={GET_MEDIA_DETAILS} variables={{ title: search }}>
@@ -43,14 +54,27 @@ const MediaCard = ({ search }) => {
         if (loading) return <h1>Loading...</h1>;
         if (error) return <h1>{search} does not exist. Try again :)</h1>;
         const { showOrMovieData } = data;
-        const { title, poster, plot } = showOrMovieData;
+        const { title, poster, plot, imdbRating } = showOrMovieData;
         return (
-            <Card>
-                <h1>{title}</h1>
-                <img src={poster} alt="Media poster" />
-                <p>{plot}</p>
-            </Card>
-        );
+                <Card>
+                    <CardImage>
+                        <img src={poster} alt="Media poster" />
+                    </CardImage>
+                    <CardContent>
+                        <h1>{title}</h1>
+                        <p>IMDB: {imdbRating}</p>
+                        <p>{plot}</p>
+                        <Mutation mutation={ADD_TO_PLAYLIST} variables={showOrMovieData}>
+                            {addToPlaylist => {
+                                return (
+                                    <button onClick={addToPlaylist}>Add</button>
+                                )
+                            }}
+                        </Mutation>
+                        
+                    </CardContent>                    
+                </Card>
+            );
         }}
     </Query>
   )
