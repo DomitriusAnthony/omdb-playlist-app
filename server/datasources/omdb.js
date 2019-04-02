@@ -63,7 +63,7 @@ class OmdbAPI extends RESTDataSource {
 
   async getMediaDetails(title) {
     const response = await this.get(
-      `?t=${title.replace(" ", "+")}&apikey=${process.env.OMDB_API_KEY}`
+      `?t=${title.replace(" ", "+")}&apikey=${process.env.OMDB_KEY}`
     );
 
     return this.mediaReducer(response);
