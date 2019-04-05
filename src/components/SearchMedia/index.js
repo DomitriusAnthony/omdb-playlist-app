@@ -1,14 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import MediaCard from '../MediaContentCard/index';
+import { Query } from 'react-apollo';
+import MediaCard from "../MediaCard";
+import gql from "graphql-tag";
+
+import PlaylistCard from '../PlaylistCard';
 
 const SearchMediaContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
-  overflow: scroll;
+  margin-top: 50px;
 
   & form {
     display: flex;
@@ -30,6 +33,16 @@ const SearchMediaContainer = styled.div`
     border-radius: 4px;
     font-size: 16px;
     margin-bottom: 50px;
+    cursor: pointer;
+  }
+`;
+
+const GET_PLAYLIST = gql`
+  query GetPlaylist {
+    playlist @client {
+      title
+      poster
+    }
   }
 `;
 
@@ -48,6 +61,15 @@ const SearchMedia = () => {
         <button>Search</button>
       </form>
       {search && <MediaCard search={search} />}
+      <Query query={GET_PLAYLIST}>
+        {({data, loading, error}) => {
+          if (loading) return <h1>Loading...</h1>
+          if (error) return <h1>There was an error</h1>
+          const { playlist } = data;
+          return playlist.length > 0 && playlist.map(media => <PlaylistCard media={media} />)
+        }}
+      </Query>
+      
     </SearchMediaContainer>
   );
 };
