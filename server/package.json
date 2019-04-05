@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "deploy": "prisma deploy"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,8 @@
     "apollo-server": "^2.4.8",
     "dotenv": "^7.0.0",
     "graphql": "^14.2.1",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "prisma": "^1.30.0",
+    "prisma-client-lib": "^1.30.0"
   }
 }
