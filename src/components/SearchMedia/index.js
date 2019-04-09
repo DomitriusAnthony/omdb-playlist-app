@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Query } from 'react-apollo';
+import { Query } from "react-apollo";
 import MediaCard from "../MediaCard";
 import gql from "graphql-tag";
 
-import PlaylistCard from '../PlaylistCard';
+import PlaylistCard from "../PlaylistCard";
 
 const SearchMediaContainer = styled.div`
   display: flex;
@@ -62,14 +62,16 @@ const SearchMedia = () => {
       </form>
       {search && <MediaCard search={search} />}
       <Query query={GET_PLAYLIST}>
-        {({data, loading, error}) => {
-          if (loading) return <h1>Loading...</h1>
-          if (error) return <h1>There was an error</h1>
+        {({ data, loading, error }) => {
+          if (loading) return <h1>Loading...</h1>;
+          if (error) return <h1>There was an error</h1>;
           const { playlist } = data;
-          return playlist.length > 0 && playlist.map(media => <PlaylistCard media={media} />)
+          return (
+            playlist.length > 0 &&
+            playlist.map(media => <PlaylistCard media={media} />)
+          );
         }}
       </Query>
-      
     </SearchMediaContainer>
   );
 };
