@@ -1,16 +1,19 @@
 type User {
-  id: ID! @unique
+  id: ID! @id
   username: String! @unique
+  email: String! @unique
   password: String!
-  playlist: [Media!]! @relation(link: )
+  playlist: [Media!]! @relation(link: INLINE)
 }
 
 type Ratings {
+  id: ID! @id
   source: String
   value: String
 }
 
 type Media {
+  id: ID! @id
   title: String
   year: String
   rated: String
@@ -25,7 +28,7 @@ type Media {
   country: String
   awards: String
   poster: String
-  ratings: Ratings
+  ratings: Ratings @relation(link: INLINE)
   metascore: String
   imdbRating: String
   imdbVotes: String

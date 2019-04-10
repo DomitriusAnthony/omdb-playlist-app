@@ -2,7 +2,21 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type Query {
+    currentUser: User!
     showOrMovieData(title: String): Media
+  }
+
+  type Mutation {
+    register(username: String!, email: String!, password: String!): User!
+    login(username: String!, password: String!): LoginResponse!
+  }
+
+  type User {
+    id: ID!
+    username: String!
+    email: String!
+    password: String!
+    playlist: [Media!]!
   }
 
   type Ratings {
@@ -32,6 +46,11 @@ const typeDefs = gql`
     imdbID: String
     totalSeasons: String
     response: String
+  }
+
+  type LoginResponse {
+    token: String
+    user: User
   }
 `;
 

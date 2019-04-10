@@ -46,9 +46,21 @@ const GET_PLAYLIST = gql`
   }
 `;
 
+const CURRENT_USER = gql`
+  query {
+    currentUser {
+      username
+      id
+    }
+  }
+`;
+
 const SearchMedia = () => {
   const [value, setValue] = React.useState("");
   const [search, setSearch] = React.useState("");
+  const logout = () => {
+    return localStorage.removeItem("Authorization");
+  };
   return (
     <SearchMediaContainer>
       <form
@@ -69,6 +81,19 @@ const SearchMedia = () => {
           return (
             playlist.length > 0 &&
             playlist.map(media => <PlaylistCard media={media} />)
+          );
+        }}
+      </Query>
+      <Query query={CURRENT_USER}>
+        {({ data, error, loading }) => {
+          if (loading) return <h1>Loading...</h1>;
+          if (error) return `${error.message} is not happy`;
+
+          return (
+            <div>
+              <p>Hello {data.currentUser.username}</p>
+              <button onClick={logout}>Logout</button>
+            </div>
           );
         }}
       </Query>
