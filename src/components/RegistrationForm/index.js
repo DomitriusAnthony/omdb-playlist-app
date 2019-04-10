@@ -19,7 +19,7 @@ const RegistrationForm = props => {
     password: ""
   });
   return (
-    <Mutation mutation={REGISTER}>
+    <Mutation mutation={REGISTER} onCompleted={() => props.history.push("/")}>
       {register => {
         return (
           <form

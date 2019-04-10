@@ -2,6 +2,7 @@ import React from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { withRouter } from "react-router-dom";
+import { CURRENT_USER } from "../User";
 
 const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {
@@ -11,15 +12,6 @@ const LOGIN = gql`
         username
         id
       }
-    }
-  }
-`;
-
-const CURRENT_USER = gql`
-  query {
-    currentUser {
-      username
-      id
     }
   }
 `;
@@ -35,10 +27,11 @@ const LoginForm = props => {
   return (
     <Mutation
       mutation={LOGIN}
-      onCompleted={data => {
+      refetchQueries={({ data }) => {
         saveToken(data.login.token);
-        return props.history.push("/");
+        return [{ query: CURRENT_USER }];
       }}
+      onCompleted={() => props.history.push("/")}
     >
       {login => {
         return (

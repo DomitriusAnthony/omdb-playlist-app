@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Query } from "react-apollo";
+import { Link } from "react-router-dom";
+import CurrentUser from "../CurrentUser";
 import MediaCard from "../MediaCard";
 import gql from "graphql-tag";
 
@@ -46,15 +48,6 @@ const GET_PLAYLIST = gql`
   }
 `;
 
-const CURRENT_USER = gql`
-  query {
-    currentUser {
-      username
-      id
-    }
-  }
-`;
-
 const SearchMedia = () => {
   const [value, setValue] = React.useState("");
   const [search, setSearch] = React.useState("");
@@ -84,19 +77,18 @@ const SearchMedia = () => {
           );
         }}
       </Query>
-      <Query query={CURRENT_USER}>
-        {({ data, error, loading }) => {
-          if (loading) return <h1>Loading...</h1>;
-          if (error) return `${error.message} is not happy`;
-
+      <CurrentUser>
+        {({ data: { currentUser } }) => {
           return (
             <div>
-              <p>Hello {data.currentUser.username}</p>
-              <button onClick={logout}>Logout</button>
+              <p>Hello {currentUser.username}</p>
+              <Link to="/" onClick={logout}>
+                Logout
+              </Link>
             </div>
           );
         }}
-      </Query>
+      </CurrentUser>
     </SearchMediaContainer>
   );
 };
