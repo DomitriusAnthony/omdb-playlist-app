@@ -2,7 +2,7 @@ import React from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { withRouter } from "react-router-dom";
-import { CURRENT_USER } from "../User";
+import { CURRENT_USER } from "../CurrentUser";
 
 const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {

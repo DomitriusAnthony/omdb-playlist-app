@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import CurrentUser from "../components/User";
+import CurrentUser from "../components/CurrentUser";
 import Main from "../components/Main";
 import SearchMedia from "../components/SearchMedia";
 import NoAuthHome from "../components/NoAuthHome";
