@@ -1,6 +1,5 @@
 Includes:
 
-- Apollo Client w/ supporting deps of apollo-link and apollo-link-rest & gql 
-- Styled-components for styling 
-- React-router for routing 
-- Apollo Server w/ RESTDataSource
+- Apollo Client for manipulating data on the client side
+- Apollo Server / Prisma+Mongo for the back end Graphql server + Db
+
