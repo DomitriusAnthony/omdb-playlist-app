@@ -1,17 +1,12 @@
 import React, { Fragment, Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
+import CurrentUser from "../components/User";
 import Main from "../components/Main";
 import SearchMedia from "../components/SearchMedia";
-
-/*
-
-I'm using the render prop method to feed a component into the "Main" component. This allows to have a single space to load any new view.
-
-- Create a new route that looks like: <Route path="/whatever" render(() => <Main DefaultComponent={YourComponentNameHere} />) />
-- Whatever is fed to the DefaultComponent prop will display in Main at whichever route you choose.
-
-*/
+import NoAuthHome from "../components/NoAuthHome";
 
 export default class Routes extends Component {
   render() {
@@ -19,11 +14,29 @@ export default class Routes extends Component {
       <Fragment>
         <Router>
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => <Main DefaultComponent={SearchMedia} />}
-            />
+            <CurrentUser>
+              {({ data: { currentUser } }) => {
+                return (
+                  <Fragment>
+                    {currentUser && (
+                      <Route
+                        exact
+                        path="/"
+                        render={() => <Main DefaultComponent={SearchMedia} />}
+                      />
+                    )}
+
+                    {!currentUser && (
+                      <Route
+                        exact
+                        path="/"
+                        render={() => <Main DefaultComponent={NoAuthHome} />}
+                      />
+                    )}
+                  </Fragment>
+                );
+              }}
+            </CurrentUser>
           </Switch>
         </Router>
       </Fragment>

@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Query } from 'react-apollo';
+import { Query } from "react-apollo";
+import { Link } from "react-router-dom";
+import CurrentUser from "../CurrentUser";
 import MediaCard from "../MediaCard";
 import gql from "graphql-tag";
 
-import PlaylistCard from '../PlaylistCard';
+import PlaylistCard from "../PlaylistCard";
 
 const SearchMediaContainer = styled.div`
   display: flex;
@@ -49,6 +51,9 @@ const GET_PLAYLIST = gql`
 const SearchMedia = () => {
   const [value, setValue] = React.useState("");
   const [search, setSearch] = React.useState("");
+  const logout = () => {
+    return localStorage.removeItem("Authorization");
+  };
   return (
     <SearchMediaContainer>
       <form
@@ -62,14 +67,28 @@ const SearchMedia = () => {
       </form>
       {search && <MediaCard search={search} />}
       <Query query={GET_PLAYLIST}>
-        {({data, loading, error}) => {
-          if (loading) return <h1>Loading...</h1>
-          if (error) return <h1>There was an error</h1>
+        {({ data, loading, error }) => {
+          if (loading) return <h1>Loading...</h1>;
+          if (error) return <h1>There was an error</h1>;
           const { playlist } = data;
-          return playlist.length > 0 && playlist.map(media => <PlaylistCard media={media} />)
+          return (
+            playlist.length > 0 &&
+            playlist.map(media => <PlaylistCard media={media} />)
+          );
         }}
       </Query>
-      
+      <CurrentUser>
+        {({ data: { currentUser } }) => {
+          return (
+            <div>
+              <p>Hello {currentUser.username}</p>
+              <Link to="/" onClick={logout}>
+                Logout
+              </Link>
+            </div>
+          );
+        }}
+      </CurrentUser>
     </SearchMediaContainer>
   );
 };

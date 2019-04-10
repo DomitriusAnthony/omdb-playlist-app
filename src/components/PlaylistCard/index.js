@@ -7,7 +7,7 @@ const Card = styled.div`
 `;
 
 const CardImage = styled.div`
-    width: 50%;            
+    width: 50%;
 `;
 
 const CardContent = styled.div`
@@ -15,7 +15,7 @@ const CardContent = styled.div`
 `
 
 const PlaylistCard = ({ media }) => {
-    const { title, poster } = media;  
+    const { title, poster } = media;
     return (
         <Card>
             <CardImage>
@@ -23,7 +23,7 @@ const PlaylistCard = ({ media }) => {
             </CardImage>
             <CardContent>
                 <h1>{title}</h1>
-            </CardContent>            
+            </CardContent>  
         </Card>
     )
 };
