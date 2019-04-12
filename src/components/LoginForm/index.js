@@ -31,14 +31,13 @@ const LoginForm = props => {
         saveToken(data.login.token);
         return [{ query: CURRENT_USER }];
       }}
-      onCompleted={() => props.history.push("/")}
     >
       {login => {
         return (
           <form
-            onSubmit={e => {
+            onSubmit={async e => {
               e.preventDefault();
-              return login({
+              await login({
                 variables: {
                   username: loginValues.username,
                   password: loginValues.password

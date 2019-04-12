@@ -1,7 +1,5 @@
 import React, { Fragment, Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 
 import CurrentUser from "../components/CurrentUser";
 import Main from "../components/Main";

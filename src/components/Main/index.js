@@ -12,11 +12,7 @@ class Main extends Component {
     const { DefaultComponent } = this.props;
     return (
       <MainDivContainer>
-        {!DefaultComponent ? (
-          <p>No Default Component provided. Check Routes to add one</p>
-        ) : (
-          <DefaultComponent />
-        )}
+        <DefaultComponent />
       </MainDivContainer>
     );
   }
