@@ -14,6 +14,7 @@ export default class Routes extends Component {
           <Switch>
             <CurrentUser>
               {({ data: { currentUser } }) => {
+                console.log("Current User: ", currentUser)
                 return (
                   <Fragment>
                     {currentUser && (

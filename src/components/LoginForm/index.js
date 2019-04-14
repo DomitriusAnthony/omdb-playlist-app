@@ -25,24 +25,18 @@ const LoginForm = props => {
     localStorage.setItem("Authorization", token);
   };
   return (
-    <Mutation
-      mutation={LOGIN}
-      refetchQueries={({ data }) => {
-        saveToken(data.login.token);
-        return [{ query: CURRENT_USER }];
-      }}
-    >
+    <Mutation mutation={LOGIN} refetchQueries={({ data }) => { saveToken(data.login.token); return [{ query: CURRENT_USER }]}} >
       {login => {
         return (
           <form
-            onSubmit={async e => {
-              e.preventDefault();
-              await login({
+            onSubmit={e => {
+              e.preventDefault();              
+              login({
                 variables: {
                   username: loginValues.username,
                   password: loginValues.password
                 }
-              });
+              })
             }}
           >
             <input

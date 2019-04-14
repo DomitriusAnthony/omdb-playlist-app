@@ -12,7 +12,7 @@ export const CURRENT_USER = gql`
 `;
 
 const CurrentUser = props => (
-  <Query {...props} query={CURRENT_USER} fetchPolicy="cache-and-network">
+  <Query {...props} query={CURRENT_USER} errorPolicy="ignore">
     {payload => {
       return props.children({ data: { ...payload.data } });
     }}

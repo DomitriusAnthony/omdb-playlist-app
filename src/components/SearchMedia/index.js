@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Query } from "react-apollo";
-import { Link } from "react-router-dom";
+import { Query, Mutation } from "react-apollo";
+import { withRouter } from 'react-router-dom';
 import CurrentUser from "../CurrentUser";
 import MediaCard from "../MediaCard";
 import gql from "graphql-tag";
 
 import PlaylistCard from "../PlaylistCard";
+import { CURRENT_USER } from '../CurrentUser';
 
 const SearchMediaContainer = styled.div`
   display: flex;
@@ -48,11 +49,20 @@ const GET_PLAYLIST = gql`
   }
 `;
 
-const SearchMedia = () => {
+const SIGNOUT = gql`
+  mutation {
+    signout {
+      message
+    }
+  }
+`
+
+const SearchMedia = (props) => {
   const [value, setValue] = React.useState("");
   const [search, setSearch] = React.useState("");
-  const logout = () => {
-    return localStorage.removeItem("Authorization");
+  const clearSession = () => {
+    localStorage.removeItem("Authorization")
+    return window.location.reload();
   };
   return (
     <SearchMediaContainer>
@@ -82,9 +92,16 @@ const SearchMedia = () => {
           return (
             <div>
               <p>Hello {currentUser.username}</p>
-              <Link to="/" onClick={logout}>
-                Logout
-              </Link>
+              <Mutation 
+                mutation={SIGNOUT} 
+                refetchQueries={async () => {
+                  clearSession()   
+                             
+                  return await [{ query: CURRENT_USER }]
+                }}
+              >
+                {signout => <button onClick={signout}>Logout</button>}
+              </Mutation>              
             </div>
           );
         }}
@@ -93,4 +110,4 @@ const SearchMedia = () => {
   );
 };
 
-export default SearchMedia;
+export default withRouter(SearchMedia);

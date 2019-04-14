@@ -6,11 +6,12 @@ module.exports = {
     showOrMovieData: async (_, { title }, { dataSources }) => {
       return dataSources.omdbAPI.getMediaDetails(title);
     },
-    currentUser: (_, args, context) => {
-      if (!context.user) {
+    currentUser: (_, args, { prisma, user }) => {
+      if (!user) {
         throw new Error("Not Authenticated! Please login/signup.");
       }
-      return context.prisma.user({ id: context.user.id });
+
+      return prisma.user({ id: user.id });
     }
   },
   Mutation: {
@@ -41,7 +42,7 @@ module.exports = {
           id: user.id,
           username: user.email
         },
-        process.env.JWT_TOKEN,
+        process.env.JWT_SECRET,
         {
           expiresIn: "30d"
         }
@@ -51,6 +52,9 @@ module.exports = {
         token,
         user
       };
-    }
+    },
+    signout: (_, args, context) => {
+      return { message: "Logged out!"}
+    } 
   }
 };

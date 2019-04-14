@@ -8,7 +8,7 @@ const { prisma } = require("./prisma/generated/prisma-client");
 const getUser = token => {
   try {
     if (token) {
-      return jwt.verify(token, process.env.JWT_TOKEN);
+      return jwt.verify(token, process.env.JWT_SECRET);
     }
     return null;
   } catch (err) {
