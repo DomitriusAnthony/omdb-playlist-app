@@ -55,6 +55,21 @@ module.exports = {
     },
     signout: (_, args, context) => {
       return { message: "Logged out!"}
-    } 
+    },
+    updateUser: (_, { media, userId }, { prisma }) => {
+      const user = prisma.user({ id: userId });
+      prisma.updateUser({
+        data: {
+          playlist: {
+            create: media
+          } 
+        },
+        where: { id: user.id }
+      });
+      
+      return {
+        user
+      }
+    }
   }
 };

@@ -47,10 +47,8 @@ class OmdbAPI extends RESTDataSource {
       country: Country,
       awards: Awards,
       poster: Poster,
-      ratings: {
-        source: Ratings.source,
-        value: Ratings.value
-      },
+      source: Ratings.source,
+      value: Ratings.value,
       metascore: MetaScore,
       imdbRating,
       imdbVotes,

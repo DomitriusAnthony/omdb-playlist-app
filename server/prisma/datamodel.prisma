@@ -6,12 +6,6 @@ type User {
   playlist: [Media!]! @relation(link: INLINE)
 }
 
-type Ratings {
-  id: ID! @id
-  source: String
-  value: String
-}
-
 type Media {
   id: ID! @id
   title: String
@@ -28,7 +22,8 @@ type Media {
   country: String
   awards: String
   poster: String
-  ratings: Ratings @relation(link: INLINE)
+  source: String
+  value: String
   metascore: String
   imdbRating: String
   imdbVotes: String
