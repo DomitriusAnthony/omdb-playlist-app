@@ -28,7 +28,8 @@ const cache = new InMemoryCache();
 const client = new ApolloClient({
   cache,
   resolvers,
-  link: authLink.concat(httpLink)
+  link: authLink.concat(httpLink),
+  connectToDevTools: true
 });
 
 // This is where you can setup your initial state.

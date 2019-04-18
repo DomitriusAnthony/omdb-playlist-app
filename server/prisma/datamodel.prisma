@@ -3,7 +3,7 @@ type User {
   username: String! @unique
   email: String! @unique
   password: String!
-  playlist: [Media!]! @relation(link: INLINE)
+  playlist: [Media!] @relation(link: INLINE)
 }
 
 type Media {

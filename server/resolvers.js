@@ -12,20 +12,27 @@ module.exports = {
       }
 
       return prisma.user({ id: user.id });
+    },
+    users: (_, __, { prisma }) => {
+      return prisma.users();
     }
   },
   Mutation: {
-    register: async (_, { username, email, password }, ctx) => {
+    register: async (
+      _,
+      { data: { username, email, password } },
+      { prisma }
+    ) => {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await ctx.prisma.createUser({
+      const user = await prisma.createUser({
         username,
         email,
         password: hashedPassword
       });
       return user;
     },
-    login: async (_, { username, password }, ctx) => {
-      const user = await ctx.prisma.user({ username });
+    login: async (_, { username, password }, { prisma }) => {
+      const user = await prisma.user({ username });
 
       if (!user) {
         throw new Error("Invalid Login");
@@ -54,22 +61,22 @@ module.exports = {
       };
     },
     signout: (_, args, context) => {
-      return { message: "Logged out!"}
+      return { message: "Logged out!" };
     },
     updateUser: (_, { media, userId }, { prisma }) => {
       const user = prisma.user({ id: userId });
-      prisma.updateUser({
+      const newUser = prisma.updateUser({
         data: {
           playlist: {
             create: media
-          } 
+          }
         },
         where: { id: user.id }
       });
-      
+
       return {
-        user
-      }
+        newUser
+      };
     }
   }
 };
